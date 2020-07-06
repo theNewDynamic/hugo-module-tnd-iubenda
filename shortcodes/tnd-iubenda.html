@@ -19,7 +19,7 @@
 {{- with .Get 0 -}}
   {{- $type = . -}}
 {{- end -}}
-{{- with partialCached "tnd-iubenda/private/GetContent" $type -}}
+{{- with partialCached "tnd-iubenda/private/GetContent" $type $type -}}
   {{- with partialCached "tnd-iubenda/private/GetStyles" "tnd-iubenda/private/GetStyles" -}}
     <style
     {{- with .Data.Integrity -}}
