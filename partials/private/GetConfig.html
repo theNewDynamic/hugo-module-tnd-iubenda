@@ -1,0 +1,19 @@
+{{/*
+  GetConfig
+  Retrives the configuration of the module
+
+  @author @regisphilibert
+
+  @context Any (.)
+
+  @access private
+
+  @example - Go Template
+  {{ $config := partialCached "tnd-iubenda/private/GetConfig" "tnd-iubenda/GetConfig" }}
+*/}}
+{{ $config := dict }}
+{{ with site.Params.tnd_iubenda }}
+  {{ $config = . }}
+{{ end }}
+
+{{ return $config }}

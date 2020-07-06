@@ -3,4 +3,8 @@ module:
     min: "0.61.0"
   mounts:
   - source: partials
-    target: layouts/partials/tnd-{moduleName}
+    target: layouts/partials/tnd-iubenda
+  - source: shortcodes
+    target: layouts/shortcodes
+  - source: assets
+    target: assets/tnd-iubenda

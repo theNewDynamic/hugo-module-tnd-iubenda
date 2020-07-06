@@ -1,0 +1,26 @@
+{{/*
+  GetAPIKey
+  Retrives the API Key set through environment variable.
+  First look for `TND_IUBENDA_KEY` for sites being monolingual or using same key across languages
+  Second look for `TND_IUBENDA_{language_code} for multilingual sites
+
+  @author @regisphilibert
+
+  @context Any (.)
+
+  @access private
+
+  
+  @example - Go Template
+    {{ $key := partialCached "tnd-iubenda/private/GetAPIKey" "tnd-iubenda/GetAPIKey" }}
+*/}}
+{{ $key := "" }}
+{{ with getenv "TND_IUBENDA_KEY" }}
+  {{ $key = . }}
+{{ else }}
+  {{ with getenv (print "TND_IUBENDA_KEY_" (upper site.Language)) }}
+    {{ $key = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $key }}

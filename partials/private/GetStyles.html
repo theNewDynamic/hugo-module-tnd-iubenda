@@ -1,0 +1,21 @@
+{{/*
+  GetStyles
+  Retrive the style asset potentially found in `assets/tnd-iubenda/style.css`
+
+  @author @regisphilibert
+
+  @context Any (.)
+
+  @access private
+
+  @example - Go Template
+    {{- with partialCached "tnd-iubenda/private/GetStyles" "tnd-iubenda/private/GetStyles" -}}
+      {{- .Content | safeCSS -}}
+    </style>
+*/}}
+{{ $style := "" }}
+{{ with resources.Get "tnd-iubenda/style.css" }}
+  {{ $style = . | fingerprint }}
+{{ end }}
+
+{{ return $style }}

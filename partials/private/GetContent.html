@@ -1,0 +1,30 @@
+{{/*
+  GetContent
+  Get the content of a iubenda document identified by type
+
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access private
+
+  @use 
+    - tnd-iubenda/private/GetAPIEndpoint
+
+  @example - Go Template
+{{- with partialCached "tnd-iubenda/private/GetContent" "cookies-policy" -}}
+{{ . | safeHTML }}
+{{- end -}}
+*/}}
+{{ $content := "" }}
+{{ with . }}
+  {{ with partialCached "tnd-iubenda/private/GetAPIEndpoint" . }}
+    {{ with getJSON . }}
+      {{ with .content }}
+        {{ $content = . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $content }}

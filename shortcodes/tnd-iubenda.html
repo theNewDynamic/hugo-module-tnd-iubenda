@@ -1,0 +1,35 @@
+{{/*
+  tnd-iubenda Shortcode
+  Print the content of a Iubenda document depending on type argument
+
+  @author @regisphilibert
+
+  @param String (.Get 0)
+
+  @access public
+
+  @use
+    - tnd-iubenda/private/GetContent
+    - tnd-iubenda/private/GetStyles
+
+  @example - Markdown
+  {{< tnd-iubenda "privacy-policy" >}}
+*/}}
+{{- $type := "privacy-policy" -}}
+{{- with .Get 0 -}}
+  {{- $type = . -}}
+{{- end -}}
+{{- with partialCached "tnd-iubenda/private/GetContent" $type -}}
+  {{- with partialCached "tnd-iubenda/private/GetStyles" "tnd-iubenda/private/GetStyles" -}}
+    <style
+    {{- with .Data.Integrity -}}
+      integrity="{{- . -}}"
+    {{- end -}}
+    >
+    {{- .Content | safeCSS -}}
+  </style>
+  {{- end -}}
+<div class="tnd-iubenda">
+  {{- . | safeHTML -}}
+</div>
+{{- end -}}

@@ -1,0 +1,65 @@
+{{/*
+  GetAPIEndpoint
+  Builds the API endpoint depending of user settings and document type
+
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access private
+
+  @use 
+    - tnd-iubenda/private/GetConfig
+    - tnd-iubenda/private/GetAPIKey
+
+  @example - Go Template
+  {{ with partialCached "tnd-iubenda/private/GetAPIEndpoint" "privacy-policy" }}
+    {{ with getJSON . }}
+    [...]
+    {{ end }}
+  {{ end }}
+*/}}
+
+{{/* Setting up the returning variable and configuration defaults */}}
+{{ $return := "" }}
+{{ $no_markup := "" }}
+{{ $version := "" }}
+
+{{ $warn_head := "\nHugo Module TND Iubenda:\n" }}
+
+{{/* Overwriting configuration defaults */}}
+{{ with partialCached "tnd-iubenda/private/GetConfig" "tnd-iubenda/GetConfig" }}
+  {{ with .no_markup }}
+    {{ $no_markup = . }}
+  {{ end }}
+  {{ with .version }}
+    {{ $version = . }}
+  {{ end }}
+{{ end }}
+
+{{/* Following is the iubenda endpoint convention depending on document type  */}}
+{{ $root := "https://www.iubenda.com/api/" }}
+{{ $endpoints := `
+'privacy-policy': 'privacy-policy/%s'
+'cookie-policy': 'privacy-policy/%s/cookie-policy'
+'terms-and-conditions': 'terms-and-conditions/%s'
+` | transform.Unmarshal }}
+
+
+{{ with $endpoint := index $endpoints . }}
+  {{/* We grab the API Key */}}
+  {{ with $key := partialCached "tnd-iubenda/private/GetAPIKey" "tnd-iubenda/GetAPIKey" }}
+    {{ $endpoint = print $root (printf $endpoint $key) }}
+    {{ with $no_markup }}
+      {{ $endpoint = print $endpoint "/no-markup" }}
+    {{ end }}
+    {{ with $version }}
+      {{ $endpoint = printf "%s?v=%s" $endpoint $version }}
+    {{ end }}
+    {{ $return = $endpoint }}
+  {{ else }}
+    {{ warnf "%sYou're missing an API key. See Module's README" $warn_head }}
+  {{ end }}
+{{ end }}
+
+{{ return $return }}
