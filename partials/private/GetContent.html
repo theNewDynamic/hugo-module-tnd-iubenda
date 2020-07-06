@@ -18,7 +18,7 @@
 */}}
 {{ $content := "" }}
 {{ with . }}
-  {{ with partialCached "tnd-iubenda/private/GetAPIEndpoint" . }}
+  {{ with partialCached "tnd-iubenda/private/GetAPIEndpoint" . . }}
     {{ with getJSON . }}
       {{ with .content }}
         {{ $content = . }}
