@@ -65,10 +65,10 @@ Store your key in `TND_IUBENDA_KEY_{LANG}` where `LANG` is the language code of 
 Ex: For a multilingual site with english and french versions of Iubenda documents, you should use:
 `TND_IUBENDA_KEY_FR` and `TND_IUBENDA_KEY_EN`
 
-#### Access KEYS from local while.
+#### Access KEYS from local while maintaining obfuscation.
 The module uses a partial at `tnd-iubenda/private/GetAPIKey.html`.
 
-You can use Hugo's union file system by overwriting this partial (by adding an homonymous one to your project) and adding it to your `.gitignore`:
+By adding an homonymous partial to your project's `layouts/partials` directory, it will supersede the module's when found.
 
 ```
 {{/* layouts/partials/tnd-iubenda/private/GetAPIKey.html */}}
@@ -81,6 +81,11 @@ You can use Hugo's union file system by overwriting this partial (by adding an h
 
 {{ return $key }}
 ```
+
+You can then and add the file to your `.gitignore` and maintain your API key's obfuscation.
+
+From now on, your local build will use your project's partial while your deployment service will use the Module's own `GetAPIKey` partial which relies on environment variables.
+
 
 ### Caching
 
@@ -104,7 +109,7 @@ params:
 
 #### version
 
-Allow's cache busting by updating the parameter with a new value whenever the Iubenda API response needs to be refreshed. (most likey after editing the settings of any given document)
+Allow's cache busting by updating the parameter with a new value whenever the Iubenda API response needs to be refreshed --- most likey after editing the settings of any given document.
 
 #### no_markup
 
@@ -112,7 +117,7 @@ If you need to print documents free of any iubenda default markup, `no_markup` s
 
 ## Styling
 
-Users are free to add any styling involving Iubenda to their own styling pipeline. Bot for ease of use, the module will print in a safe `style` tag the content of an asset file named `assets/tnd-iubenda/style.css` if found on the project.
+Users are free to add any styling involving Iubenda to their own styling pipeline. Bot for ease of use, the module will print in a `style` tag the content of an asset file named `assets/tnd-iubenda/style.css` if found on the project.
 
 So for:
 ```css
@@ -124,7 +129,7 @@ So for:
 ```
 The module will print above the Iubenda document the following:
 ```html
-<style integrity="sha256-YPxff30Qq1ac9coOVBl7f84qO8fhVpeYn2qLmEXlDjU=">
+<style>
 .iub_content h1{
   margin-top: 2rem;
   font-size: 2.25rem;
