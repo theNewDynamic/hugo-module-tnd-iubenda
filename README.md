@@ -65,6 +65,23 @@ Store your key in `TND_IUBENDA_KEY_{LANG}` where `LANG` is the language code of 
 Ex: For a multilingual site with english and french versions of Iubenda documents, you should use:
 `TND_IUBENDA_KEY_FR` and `TND_IUBENDA_KEY_EN`
 
+#### Access KEYS from local while.
+The module uses a partial at `tnd-iubenda/private/GetAPIKey.html`.
+
+You can use Hugo's union file system by overwriting this partial (by adding an homonymous one to your project) and adding it to your `.gitignore`:
+
+```
+{{/* layouts/partials/tnd-iubenda/private/GetAPIKey.html */}}
+{{ $key := "" }}
+{{ if eq site.Language "en" }}
+  {{ $key = "9XXXXXX9" }}
+{{ else }}
+  {{ $key = "4XXXXXX4" }}
+{{ end }}
+
+{{ return $key }}
+```
+
 ### Caching
 
 The module uses Hugo's `getJSON` to grab the document content using Iubenda's API. In order to avoid calling the API on every build we rely on Hugo's cache default configuration. (unlimited cache).
