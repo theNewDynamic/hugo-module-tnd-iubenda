@@ -21,11 +21,7 @@
 {{- end -}}
 {{- with partialCached "tnd-iubenda/private/GetContent" $type $type -}}
   {{- with partialCached "tnd-iubenda/private/GetStyles" "tnd-iubenda/private/GetStyles" -}}
-    <style
-    {{- with .Data.Integrity -}}
-      integrity="{{- . -}}"
-    {{- end -}}
-    >
+    <style>
     {{- .Content | safeCSS -}}
   </style>
   {{- end -}}

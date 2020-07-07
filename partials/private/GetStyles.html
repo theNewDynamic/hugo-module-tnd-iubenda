@@ -10,12 +10,13 @@
 
   @example - Go Template
     {{- with partialCached "tnd-iubenda/private/GetStyles" "tnd-iubenda/private/GetStyles" -}}
-      {{- .Content | safeCSS -}}
+    <style>
+    {{- .Content | safeCSS -}}
     </style>
 */}}
 {{ $style := "" }}
 {{ with resources.Get "tnd-iubenda/style.css" }}
-  {{ $style = . | fingerprint }}
+  {{ $style = . }}
 {{ end }}
 
 {{ return $style }}
