@@ -6,7 +6,7 @@ This module facilitates setting up Iubenda on a Hugo project through the use of 
 
 Requirements:
 - Go 1.14
-- Hugo 0.61.0
+- Hugo 0.64.0
 
 
 ## Installation
@@ -73,7 +73,7 @@ By adding an homonymous partial to your project's `layouts/partials` directory, 
 ```
 {{/* layouts/partials/tnd-iubenda/private/GetAPIKey.html */}}
 {{ $key := "" }}
-{{ if eq site.Language "en" }}
+{{ if eq site.Language.Lang "en" }}
   {{ $key = "9XXXXXX9" }}
 {{ else }}
   {{ $key = "4XXXXXX4" }}
